@@ -1,7 +1,8 @@
 const videoId = window.location.href.split('/').pop().split('?')[1].split('=')[1];
 const comments = [];
 const isFiltered = false;
-const apiEndpoint = "http://api.ayushch.xyz";
+// const apiEndpoint = "http://api.ayushch.xyz";
+const apiEndpoint = "http://127.0.0.1:5000"
 
 function filterComments() {
     let unfilteredComments = [];
@@ -62,9 +63,15 @@ chrome.storage.local.get('enabled', function (data) {
     }
     if (data.enabled) {
         setInterval(() => {
-            let scrapedComments = scrapeComments();
-            comments.push(...scrapedComments);
-            console.log(comments);
+            if (comments.length < document.querySelectorAll("#comment").length) {
+                let scrapedComments = scrapeComments();
+                comments.push(...scrapedComments);
+                console.log(comments);
+                (async () => {
+                    let cmts = await filterComments();
+                    console.log(cmts);
+                })();
+            }
         }, 1000);
     }
 });

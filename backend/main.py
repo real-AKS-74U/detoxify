@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
-import sqlite3 
+from flask_cors import CORS
+import sqlite3
+import json
+
 app=Flask(__name__)
+CORS(app)
 
 def init_db():
     conn = sqlite3.connect('db/reports.db')
@@ -31,6 +35,7 @@ def filter():
             comments.append(
                 commentData['text']
             )
+        # open('comments.json', 'w').write(json.dumps(data))
         return jsonify ({"success ": True, "data" : comments})
     except Exception as e:
         print(e)
