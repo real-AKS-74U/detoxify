@@ -1,5 +1,32 @@
 const videoId = window.location.href.split('/').pop().split('?')[1].split('=')[1];
 const comments = [];
+const isFiltered = false;
+const apiEndpoint = "http://api.ayushch.xyz";
+
+function filterComments() {
+    let unfilteredComments = [];
+
+    comments.forEach(comment => {
+        if (!comment.filtered) {
+            unfilteredComments.push(
+                {
+                    author: comment.author,
+                    text: comment.text
+                }
+            );
+        }
+    });
+
+    fetch(apiEndpoint + "/filter", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(unfilteredComments)
+    }).then((response) => {
+        return response.json();
+    })
+}
 
 function scrapeComments() {
     let commentList = [];
@@ -21,7 +48,8 @@ function scrapeComments() {
             author: authorName,
             text: commentText,
             element: commentElement,
-            videoId
+            videoId,
+            filtered: false
         };
         commentList.push(comment);
     }

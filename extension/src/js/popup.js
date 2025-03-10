@@ -11,5 +11,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.getElementById('toggle').addEventListener('change', function () {
     chrome.storage.local.set({ 'enabled': this.checked });
-    chrome.runtime.sendMessage({ 'enabled': this.checked });
+    // chrome.runtime.sendMessage({ 'enabled': this.checked });
 });
