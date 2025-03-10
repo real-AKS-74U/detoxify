@@ -1,0 +1,17 @@
+from flask import Flask, request, jsonify
+app=Flask(__name__)
+@app.route('/filter', methods=['POST'])
+def filter():
+    try:
+        print(data)
+        data = request.get_json()
+        if not isinstance(data,list)or not all(isinstance(i,dict)for i in data): 
+            raise ValueError("INVALID") 
+        for i in range(data):
+            print(data[i])
+        return jsonify ({"success ": True})
+    except Exception as e:
+        return jsonify({"success": False})
+if __name__ == '__main__':
+    app.run(debug=True)
+
