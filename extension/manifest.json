@@ -1,0 +1,32 @@
+{
+    "manifest_version": 3,
+    "name": "Detoxify",
+    "version": "1.0.0",
+    "description": "Filter out spam, scam, and negative comments from YouTube.",
+    "permissions": [
+        "storage",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://www.youtube.com/"
+    ],
+    "background": {
+        "service_worker": "src/js/background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://*.youtube.com/*", "https://youtube.com/*", "https://www.youtube.com/*"],
+            "js": ["src/js/content.js"]
+        }
+    ],
+    "action": {
+        "default_title": "Detoxify",
+        "default_popup": "src/html/popup.html",
+        "default_icon": {
+            "16": "public/icons/icon16.png",
+            "48": "public/icons/icon48.png",
+            "128": "public/icons/icon128.png"
+        }
+    }
+}
