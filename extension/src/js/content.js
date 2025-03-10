@@ -20,24 +20,23 @@ function scrapeComments() {
         let comment = {
             author: authorName,
             text: commentText,
-            element: commentElement
+            element: commentElement,
+            videoId
         };
         commentList.push(comment);
     }
     return commentList;
 }
 
-isExtensionOff = false;
 chrome.storage.local.get('enabled', function (data) {
-    isExtensionOff = !data.enabled;
-});
-
-if (!isExtensionOff) {
-    setInterval(() => {
-        if (comments.length < document.querySelectorAll("#comment").length) {
+    if (data.enabled === undefined) {
+        chrome.storage.local.set({ 'enabled': true });
+    }
+    if (data.enabled) {
+        setInterval(() => {
             let scrapedComments = scrapeComments();
             comments.push(...scrapedComments);
             console.log(comments);
-        }
-    }, 1000);
-}
+        }, 1000);
+    }
+});
