@@ -1,6 +1,5 @@
 const videoId = window.location.href.split('/').pop().split('?')[1].split('=')[1];
 const comments = [];
-// alert(videoId);
 
 function scrapeComments() {
     let commentList = [];
@@ -28,10 +27,17 @@ function scrapeComments() {
     return commentList;
 }
 
-setInterval(() => {
-    if (comments.length < document.querySelectorAll("#comment").length) {
-        let scrapedComments = scrapeComments();
-        comments.push(...scrapedComments);
-        console.log(comments);
-    }
-}, 1000);
+isExtensionOff = false;
+chrome.storage.local.get('enabled', function (data) {
+    isExtensionOff = !data.enabled;
+});
+
+if (!isExtensionOff) {
+    setInterval(() => {
+        if (comments.length < document.querySelectorAll("#comment").length) {
+            let scrapedComments = scrapeComments();
+            comments.push(...scrapedComments);
+            console.log(comments);
+        }
+    }, 1000);
+}
