@@ -1,0 +1,6 @@
+pandas
+joblib
+scikit-learn
+huggingface_hub
+pyarrow
+fastparquet

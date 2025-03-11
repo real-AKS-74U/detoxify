@@ -18,7 +18,7 @@ function filterComments() {
         }
     });
 
-    fetch(apiEndpoint + "/filter", {
+    return fetch(apiEndpoint + "/filter", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -69,7 +69,16 @@ chrome.storage.local.get('enabled', function (data) {
                 console.log(comments);
                 (async () => {
                     let cmts = await filterComments();
-                    console.log(cmts);
+                    // response = {data: [{author: "author", text: "text", spam: true/false}...], success: true}
+                    cmts = cmts.data;
+                    cmts.forEach((cmt, index) => {
+                        comments[index].filtered = true;
+                        if (cmt.spam) {
+                            comments[index]['spam'] = true;
+                            comments[index].element.style.display = "none";
+                            console.log(comments[index]['text']);
+                        }
+                    });
                 })();
             }
         }, 1000);

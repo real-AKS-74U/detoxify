@@ -1,3 +1,4 @@
 backend/env/
 backend/db/reports.db
 ai-models/env/
+backend/comments.json
